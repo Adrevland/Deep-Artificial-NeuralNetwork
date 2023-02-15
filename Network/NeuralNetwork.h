@@ -4,6 +4,7 @@
 //#include "Tensor.h"
 #include <vector>
 #include "Layer.h"
+#include <iostream>
 
 class NeuralNetwork {
 public:
@@ -21,6 +22,17 @@ public:
     void PrintNetwork();
     bool bLog{true};
 private:
+    void PrintMeme(){
+        std::cout << "TRANING MACHINE LEARNINGS MODELL!!" << std::endl;
+        std::cout << "BIG DATA!!" << std::endl;
+        std::cout << "MACHINE LEARNING!!!" << std::endl;
+        std::cout << "BLOCK CHAIN!!!" << std::endl;
+        std::cout << "ARTIFICIAL INTELIGENSE!!" << std::endl;
+        std::cout << "DIGITAL MANIFACTURING!!; " << std::endl;
+        std::cout << "BIG DATA ANALYSIS!!! " << std::endl;
+        std::cout << "QUANTUM COMMUNICATION!!!" << std::endl;
+        std::cout << "AND INTERNET OF THINGS!!!" << std::endl;
+    };
     size_t LayerCount{0};
     std::vector<Layer*> Layers;
 };

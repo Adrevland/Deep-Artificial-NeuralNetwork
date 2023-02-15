@@ -90,6 +90,8 @@ void NeuralNetwork::UpdateWeights(std::vector<Scalar> inputs, Scalar rate) {
 }
 
 void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar rate, size_t epoch, size_t outputs) {
+    if(bLog)
+        PrintMeme();
     for(size_t i{0}; i < epoch; i++){
         Scalar errorSum{0};
         for(auto& data: trainingData){

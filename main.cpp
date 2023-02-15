@@ -4,16 +4,6 @@
 
 int main() {
 
-    std::cout << "TRANING MACHINE LEARNINGS MODELL!!" << std::endl;
-    std::cout << "BIG DATA!!" << std::endl;
-    std::cout << "MACHINE LEARNING!!!" << std::endl;
-    std::cout << "BLOCK CHAIN!!!" << std::endl;
-    std::cout << "ARTIFICIAL INTELIGENSE!!" << std::endl;
-    std::cout << "DIGITAL MANIFACTURING!!; " << std::endl;
-    std::cout << "BIG DATA ANALYSIS!!! " << std::endl;
-    std::cout << "QUANTUM COMMUNICATION!!!" << std::endl;
-    std::cout << "AND INTERNET OF THINGS!!!" << std::endl;
-
     std::vector<std::vector<Scalar>> TrainingData {
             {2.7810836,		2.550537003,	0},
             {1.465489372,	2.362125076,	0},
