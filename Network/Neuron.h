@@ -1,4 +1,4 @@
-#ifndef NEURALNETWORK_NEURON_H
+    #ifndef NEURALNETWORK_NEURON_H
 #define NEURALNETWORK_NEURON_H
 
 //#include "Tensor.h"
