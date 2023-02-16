@@ -2,6 +2,7 @@
 #include "NeuralNetwork.h"
 #include <algorithm>
 #include <iostream>
+#include "Utils/Importer.h"
 
 NeuralNetwork::NeuralNetwork() {
 
@@ -26,7 +27,7 @@ void NeuralNetwork::AddLayer(int neurons, int weights) {
     LayerCount++;
 }
 
-std::vector<Scalar> NeuralNetwork::ForwardPropagate(std::vector<Scalar> inputs) {
+std::vector<Scalar> NeuralNetwork::ForwardPropagate(std::vector<Scalar>& inputs) {
     std::vector<Scalar> NewInputs;
     for (auto layer: Layers) {
         NewInputs.clear();
@@ -91,7 +92,7 @@ void NeuralNetwork::UpdateWeights(std::vector<Scalar> inputs, Scalar rate) {
 
 void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar rate, size_t epoch, size_t outputs) {
     if(bLog)
-        PrintMeme();
+        Importer::PrintMeme();
     for(size_t i{0}; i < epoch; i++){
         Scalar errorSum{0};
         for(auto& data: trainingData){
@@ -112,7 +113,7 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
     }
 }
 
-Scalar NeuralNetwork::Predict(std::vector<Scalar> input) {
+long NeuralNetwork::Predict(std::vector<Scalar> input) {
     auto outputs = ForwardPropagate(input);
     return std::max_element(outputs.begin(),outputs.end()) - outputs.begin();
 }

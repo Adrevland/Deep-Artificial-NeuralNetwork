@@ -1,8 +1,11 @@
 #include <iostream>
+#include "Network/Utils/Importer.h"
 #include "Network/NeuralNetwork.h"
 #include <set>
 
 int main() {
+
+    auto TData = Importer::GetCSVfile("../DataSets/Seed.csv");
 
     std::vector<std::vector<Scalar>> TrainingData {
             {2.7810836,		2.550537003,	0},
@@ -17,20 +20,24 @@ int main() {
             {7.673756466,	3.508563011,	1}
     };
 
-    float rate = 0.4f;
+    size_t outputSize = Importer::GetOutputCount(TData);
+    size_t inputSize = Importer::GetInputCount(TData);
+
+    float rate = 0.1f;
     int epoch = 500;
-    int hidden = 2;
+    int hidden = 5;
 
     NeuralNetwork network;
     network.bLog = true;
-    //network.AddLayer(2,TrainingData.size());
-    network.InitNetwork(TrainingData[0].size()-1, hidden, 2);
-    network.Train(TrainingData, rate, epoch, 2);
+
+    network.InitNetwork(inputSize, hidden, outputSize);
+    network.Train(TData, rate, epoch, outputSize);
 
 
     network.PrintNetwork();
 
-    for (const auto& data : TrainingData) {
+    auto TestData = Importer::GetTestData(TData,10);
+    for (const auto& data : TestData) {
         int prediction = network.Predict(data);
         std::cout << "\tExpected=" << data.back() << ", Got=" << prediction << std::endl;
     }
