@@ -33,7 +33,7 @@ class Neuron {
     std::vector<Scalar>& GetWeights(){return Weights;}
     void SetDelta(Scalar delta){Delta = delta;}
 
-    enum ActivationFunction{
+    enum ACTIVATION_FUNCTION{
         sigmoid,
         binaryStep
 

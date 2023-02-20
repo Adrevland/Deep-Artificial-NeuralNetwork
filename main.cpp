@@ -5,7 +5,7 @@
 
 int main() {
 
-    auto TData = Importer::GetCSVfile("../DataSets/Seed.csv");
+
 
     std::vector<std::vector<Scalar>> TrainingData {
             {2.7810836,		2.550537003,	0},
@@ -20,25 +20,29 @@ int main() {
             {7.673756466,	3.508563011,	1}
     };
 
-    int outputSize = Importer::GetOutputCount(TData);
-    int inputSize = Importer::GetInputCount(TData);
+    const bool AdvancedData{false};
+    if(AdvancedData){
+        TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv");
+    }
+    int outputSize = Importer::GetOutputCount(TrainingData);
+    int inputSize = Importer::GetInputCount(TrainingData);
 
     float rate = 0.08f;
-    int epoch = 1000;
-    int hidden = 2;
-    std::vector<int> HiddenLayout{5,3,5,5};
+    int epoch = 10000;
+    int hidden = 10;
+    std::vector<int> HiddenLayout{5};
 
     NeuralNetwork network;
     network.bLog = true;
 
-    //network.InitNetwork(inputSize, hidden, outputSize);
+    //network.InitNetwork(inputSize, outputSize,hidden );
     network.InitNetwork(inputSize,outputSize,HiddenLayout);
-    network.Train(TData, rate, epoch, outputSize);
+    network.Train(TrainingData, rate, epoch, outputSize,true);
 
 
     network.PrintNetwork();
 
-    auto TestData = Importer::GetTestData(TData,10);
+    auto TestData = Importer::GetTestData(TrainingData,10);
     for (const auto& data : TestData) {
         int prediction = network.Predict(data);
         std::cout << "\tExpected=" << data.back() << ", Got=" << prediction << std::endl;

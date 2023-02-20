@@ -68,7 +68,9 @@ std::vector<std::vector<Scalar>> Importer::GetTestData(std::vector<std::vector<S
     for(int i{0}; i < size; i++){
         std::uniform_int_distribution<> distr(0, input.size()-1);
         int t = distr(gen);
-        TestData.emplace_back(input[t]);
+        auto data = input[t];
+        //data.pop_back(); //todo commented out to read excepted output in debugger
+        TestData.emplace_back(data);
     }
     return TestData;
 }

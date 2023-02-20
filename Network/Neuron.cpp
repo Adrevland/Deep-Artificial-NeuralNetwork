@@ -10,6 +10,7 @@ Scalar Neuron::DerivateSigmoid(const Scalar &z) {
 
     return Sigmoid(z) * (1.0 - Sigmoid(z));
 }
+
 /*
 Tensor Neuron::DerivateSigmoid(const Tensor &z) {
 
@@ -44,8 +45,20 @@ void Neuron::InitWeights(int count) {
         Bias = weight;
     }
 
+    //xavier weights for sigmoid and tanh // todo add tanh
+    //https://cs230.stanford.edu/section/4/
+    if (ActivateFunction == ACTIVATION_FUNCTION::sigmoid) {
 
-    for(int i{0}; i < count; i++){
+        for (int i{0}; i < count; i++) {
+            double minvalue = -(1.0 / sqrt(count));
+            double Maxvalue = (1.0 / sqrt(count));
+            std::uniform_real_distribution<> distr(minvalue, Maxvalue);
+            Weights.push_back(distr(gen));
+        }
+        return;
+    }
+
+    for (int i{0}; i < count; i++) {
 
         std::uniform_int_distribution<> distr(0.0, 1000.0);
         Scalar weight = distr(gen) / 1000.0;
@@ -58,8 +71,8 @@ void Neuron::InitWeights(int count) {
 void Neuron::Activate(std::vector<Scalar> inputs) {
     Activation = -Bias;
 
-    for(size_t i{0}; i < WeightCount-1; i++){
-        Activation += Weights[i]*inputs[i];
+    for (size_t i{0}; i < WeightCount; i++) {
+        Activation += Weights[i] * inputs[i];
     }
 
 
@@ -74,6 +87,7 @@ Scalar Neuron::DerivateBinaryStep(const Scalar &z) {
 
     return BinaryStep(z) * (1.0 - BinaryStep(z));
 }
+
 /*
 Tensor Neuron::DerivateBinaryStep(const Tensor &z) {
     Tensor output = Tensor(z.rows(), z.cols());
@@ -89,11 +103,11 @@ Tensor Neuron::DerivateBinaryStep(const Tensor &z) {
 */
 void Neuron::transfer() {
     switch (ActivateFunction) {
-        case sigmoid:{
+        case sigmoid: {
             Output = Sigmoid(Activation);
             break;
         }
-        case binaryStep:{
+        case binaryStep: {
             Output = BinaryStep(Activation);
             break;
         }
@@ -104,10 +118,10 @@ void Neuron::transfer() {
 
 Scalar Neuron::GetDerivative() {
     switch (ActivateFunction) {
-        case sigmoid:{
+        case sigmoid: {
             return DerivateSigmoid(Activation);
         }
-        case binaryStep:{
+        case binaryStep: {
             return DerivateBinaryStep(Activation);
         }
     }
