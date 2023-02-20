@@ -6,7 +6,7 @@
 #include <set>
 #include <random>
 
-std::vector<std::vector<Scalar>> Importer::GetCSVfile(const char *CsvFile) {
+std::vector<std::vector<Scalar>> Importer::GetCSVfile(const char *CsvFile,bool BAnsFirst) {
 
     std::vector<std::vector<Scalar>> Output;
 
@@ -19,7 +19,7 @@ std::vector<std::vector<Scalar>> Importer::GetCSVfile(const char *CsvFile) {
     if(!iStream){
         std::cout << "no file";
     }
-
+    int i {0};
     while(std::getline(iStream, line)){
         Row.clear();
         std::stringstream lineStream(line);
@@ -29,14 +29,29 @@ std::vector<std::vector<Scalar>> Importer::GetCSVfile(const char *CsvFile) {
         }
 
         while(std::getline(lineStream,word, ',')){
+            if(word == "label"){
+                break;
+            }
             Row.push_back(word);
         }
         std::vector<Scalar> out;
         for(auto& w : Row){
             out.emplace_back(std::stod(w));
         }
-        Output.emplace_back(out);
+
+        //swap first and last
+        if(BAnsFirst && !out.empty()){
+            auto ans = out.front();
+            out.erase(out.begin()); // remove first element
+            out.emplace_back(ans);
+        }
+
+        if(!out.empty())
+            Output.emplace_back(out);
         out.clear();
+
+        i++;
+        //std::cout << "Line Finished : " << i << std::endl;
     }
     iStream.close();
     return Output;

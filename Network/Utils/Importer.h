@@ -7,7 +7,7 @@ typedef double Scalar;
 
 class Importer {
 public:
-    static std::vector<std::vector<Scalar>> GetCSVfile(const char* CsvFile);
+    static std::vector<std::vector<Scalar>> GetCSVfile(const char* CsvFile, bool BAnsFirst=false);
     static size_t GetOutputCount(std::vector<std::vector<Scalar>> input);
     static size_t GetInputCount(std::vector<std::vector<Scalar>> input);
     static std::vector<std::vector<Scalar>> GetTestData(std::vector<std::vector<Scalar>> input, int size);
