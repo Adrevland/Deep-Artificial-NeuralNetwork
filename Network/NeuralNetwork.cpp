@@ -99,17 +99,11 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
         Scalar errorSum{0};
         for (auto &data: trainingData) {
             auto out = ForwardPropagate(data);
-
             //binary exception vector
             std::vector<Scalar> excepted(outputs, 0.0);
             excepted[static_cast<int>(data.back())] = 1.0;
-
-            //std::vector<Scalar> excepted(out);
-
             for (size_t j{0}; j < outputs; j++) {
                 errorSum += std::pow(excepted[j] - out[j], 2);
-                //excepted - output * inverted output;
-                //errorSum += excepted[j]-out[j] * (out[j]*(1-out[j]));
             }
             BackwardPropagateError(excepted);
             UpdateWeights(data, rate);
