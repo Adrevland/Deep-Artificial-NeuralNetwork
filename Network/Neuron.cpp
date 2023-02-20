@@ -39,16 +39,16 @@ void Neuron::InitWeights(int count) {
 
     //set bias
     {
-        std::uniform_int_distribution<> distr(0, 100);
-        Scalar weight = distr(gen) / 100.0;
+        std::uniform_int_distribution<> distr(0, 1000);
+        Scalar weight = distr(gen) / 1000.0;
         Bias = weight;
     }
 
 
-    for(int i{0}; i < count-1; i++){
+    for(int i{0}; i < count; i++){
 
-        std::uniform_int_distribution<> distr(0.0, 100.0);
-        Scalar weight = distr(gen) / 100.0;
+        std::uniform_int_distribution<> distr(0.0, 1000.0);
+        Scalar weight = distr(gen) / 1000.0;
         Weights.push_back(weight);
     }
 
@@ -56,7 +56,7 @@ void Neuron::InitWeights(int count) {
 }
 
 void Neuron::Activate(std::vector<Scalar> inputs) {
-    Activation = Bias;
+    Activation = -Bias;
 
     for(size_t i{0}; i < WeightCount-1; i++){
         Activation += Weights[i]*inputs[i];

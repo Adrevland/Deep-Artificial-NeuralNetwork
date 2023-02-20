@@ -47,7 +47,8 @@ size_t Importer::GetOutputCount(std::vector<std::vector<Scalar>> input) {
     for(auto row: input){
         set.emplace(row[row.size()-1]);
     }
-    return set.size();
+    //return set.size();
+    return *std::max_element(set.begin(), set.end())+1;
 }
 
 size_t Importer::GetInputCount(std::vector<std::vector<Scalar>> input) {

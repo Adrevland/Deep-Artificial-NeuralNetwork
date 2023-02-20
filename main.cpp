@@ -20,17 +20,19 @@ int main() {
             {7.673756466,	3.508563011,	1}
     };
 
-    size_t outputSize = Importer::GetOutputCount(TData);
-    size_t inputSize = Importer::GetInputCount(TData);
+    int outputSize = Importer::GetOutputCount(TData);
+    int inputSize = Importer::GetInputCount(TData);
 
-    float rate = 0.1f;
-    int epoch = 500;
-    int hidden = 5;
+    float rate = 0.08f;
+    int epoch = 1000;
+    int hidden = 2;
+    std::vector<int> HiddenLayout{5,3,5,5};
 
     NeuralNetwork network;
     network.bLog = true;
 
-    network.InitNetwork(inputSize, hidden, outputSize);
+    //network.InitNetwork(inputSize, hidden, outputSize);
+    network.InitNetwork(inputSize,outputSize,HiddenLayout);
     network.Train(TData, rate, epoch, outputSize);
 
 

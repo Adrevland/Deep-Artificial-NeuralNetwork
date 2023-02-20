@@ -20,6 +20,9 @@ class Neuron {
     static Scalar DerivateBinaryStep(const Scalar &z);
     //static Tensor DerivateBinaryStep(const Tensor &z);
 
+    //make leaky ReLU
+
+
     Scalar GetDerivative();
 
     void Activate(std::vector<Scalar> inputs);
