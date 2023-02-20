@@ -20,7 +20,7 @@ int main() {
             {7.673756466,	3.508563011,	1}
     };
 
-    const bool AdvancedData{false};
+    const bool AdvancedData{true};
     if(AdvancedData){
         TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv");
     }
@@ -37,7 +37,7 @@ int main() {
 
     //network.InitNetwork(inputSize, outputSize,hidden );
     network.InitNetwork(inputSize,outputSize,HiddenLayout);
-    network.Train(TrainingData, rate, epoch, outputSize,true);
+    network.Train(TrainingData, rate, epoch, outputSize,false);
 
 
     network.PrintNetwork();

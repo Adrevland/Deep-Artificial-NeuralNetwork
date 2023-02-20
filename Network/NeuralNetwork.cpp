@@ -112,6 +112,7 @@ void NeuralNetwork::UpdateWeights(std::vector<Scalar> &inputs, Scalar rate) {
 
 void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar rate, size_t epoch, size_t outputs,
                           bool BNormalizeData) {
+    MaxError = rate;
     DataNormalized = BNormalizeData;
     if (bLog)
         Importer::PrintMeme();
@@ -135,7 +136,7 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
             UpdateWeights(data, rate);
         }
         errorSum /= (double) (normalData.size());
-        errorSum /= (double) (outputs);
+        //errorSum /= (double) (outputs);
         if (errorSum <= MaxError) {
             std::cout << "Breaked out from training in " << i << " epochs" << std::endl;
             break;

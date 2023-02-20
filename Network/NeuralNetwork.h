@@ -25,7 +25,7 @@ public:
 private:
     size_t LayerCount{0};
     std::vector<Layer*> Layers;
-    float MaxError{0.05};
+    Scalar MaxError{0.08};
 
     std::vector<std::vector<Scalar>> NormalizeData(std::vector<std::vector<Scalar>>& data);
     std::vector<Scalar> NormalizeData(std::vector<Scalar>& data);
