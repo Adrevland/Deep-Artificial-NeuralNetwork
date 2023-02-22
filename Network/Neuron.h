@@ -24,7 +24,7 @@ class Neuron {
     Scalar (*ActivationFunc)(Scalar);
     Scalar (*DerActivationFunc)(Scalar);
 private:
-    size_t WeightCount{0};
+    //size_t WeightCount{0};
     std::vector<Scalar> Weights;
     Scalar Activation{0};
     Scalar Output{0};

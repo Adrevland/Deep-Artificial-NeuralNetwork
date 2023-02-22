@@ -20,13 +20,6 @@ Scalar TanH(Scalar z){
 Scalar DerivateTanH(Scalar z){
     return 1.0-std::pow(TanH(z),2);
 }
-Scalar BinaryStep(Scalar z){
-    return z < 0 ? 0 : 1;
-}
-Scalar DerivateBinaryStep(Scalar z){
-    return 0;
-}
-
 Scalar ReLU(Scalar z){
     return  z < 0 ? 0 : z;
 }

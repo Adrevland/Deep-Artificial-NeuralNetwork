@@ -34,8 +34,6 @@ private:
     size_t LayerCount{0};
     std::vector<Layer> Layers;
 
-
-
     std::vector<std::vector<Scalar>> NormalizeData(std::vector<std::vector<Scalar>>& data);
     std::vector<Scalar> NormalizeData(std::vector<Scalar>& data);
     double MaxValue = std::numeric_limits<double>().min();

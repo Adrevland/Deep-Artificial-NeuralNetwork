@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include "Utils/Importer.h"
+#include <chrono>
 
 NeuralNetwork::NeuralNetwork() {
 
@@ -56,18 +57,19 @@ std::vector<Scalar> NeuralNetwork::ForwardPropagate(std::vector<Scalar> inputs) 
 
 void NeuralNetwork::BackwardPropagateError(std::vector<Scalar> expected) {
     //itterate backwards
-    for (size_t i{Layers.size()}; i-- > 0;) {
-        auto& LayerNeurons = Layers[i].GetNeurons();
+
+    //for (int i = Layers.size()-1; i >= 0;i--) {
+    for (int B = Layers.size(); B--> 0;) {
+        auto& LayerNeurons = Layers[B].GetNeurons();
         for (size_t j{0}; j < LayerNeurons.size(); j++) {
             Scalar error{0.0};
-
             //output layer
-            if (i == Layers.size() - 1 /*not sure if it is -1*/) {
+            if (B == Layers.size() - 1 /*not sure if it is -1*/) {
                 error = expected[j] - LayerNeurons[j].GetOutput();
             }
                 //hidden layers
             else {
-                for (auto& neuron: Layers[i + 1].GetNeurons()) {
+                for (auto& neuron: Layers[B + 1].GetNeurons()) {
                     error += (neuron.GetWeights()[j] * neuron.GetDelta());
                 }
             }
@@ -110,6 +112,7 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
         return;
     }
 
+    auto startTime = std::chrono::high_resolution_clock::now();
     DataNormalized = BNormalizeData;
     if (bLog)
         Importer::PrintMeme();
@@ -136,19 +139,23 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
         errorSum *= 100;
         if (errorSum <= MaxError) {
             std::cout << "Breaked out from training in " << i << " epochs" << std::endl;
+            std::cout << "Epoch=" << i+1 << ", Rate=" << rate << ", Error=" << trunc(errorSum * 100) / 100 << "%"
+                      << std::endl;
             break;
         }
         //print 1% of epochs
         if (bLog) {
             if(epoch>100)
             if((i+1) % (int)(epoch/100) == 0|| i+1 == epoch){
-
+                std::cout << "Epoch=" << i+1 << ", Rate=" << rate << ", Error=" << trunc(errorSum * 100) / 100 << "%"
+                          << std::endl;
             }
-            std::cout << "Epoch=" << i+1 << ", Rate=" << rate << ", Error=" << trunc(errorSum * 100) / 100 << "%"
-                      << std::endl;
+
         }
 
     }
+    auto endTime = std::chrono::high_resolution_clock::now();
+    std::cout << "\nTraining Time = " << std::chrono::duration<double>(endTime - startTime).count() << std::endl;
 }
 
 long NeuralNetwork::Predict(std::vector<Scalar> input) {
