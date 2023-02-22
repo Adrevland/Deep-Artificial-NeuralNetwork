@@ -139,8 +139,12 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
             break;
         }
         //print 1% of epochs
-        if (bLog && (i+1) % (int)(epoch/100) == 0 || i+1 == epoch) {
-            std::cout << "Epoch=" << i+1 << ", Rate =" << rate << ", Error=" << trunc(errorSum * 100) / 100 << "%"
+        if (bLog) {
+            if(epoch>100)
+            if((i+1) % (int)(epoch/100) == 0|| i+1 == epoch){
+
+            }
+            std::cout << "Epoch=" << i+1 << ", Rate=" << rate << ", Error=" << trunc(errorSum * 100) / 100 << "%"
                       << std::endl;
         }
 

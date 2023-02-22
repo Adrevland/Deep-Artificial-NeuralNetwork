@@ -23,15 +23,15 @@ int main() {
 
     const bool AdvancedData{true};
     if(AdvancedData){
-        TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv", false);
-        //TrainingData = Importer::GetCSVfile("../DataSets/mnist_test.csv", true);
+        //TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv", false);
+        TrainingData = Importer::GetCSVfile("../DataSets/mnist_test.csv", true);
     }
     int outputSize = Importer::GetOutputCount(TrainingData);
     int inputSize = Importer::GetInputCount(TrainingData);
 
     float rate = 0.001f;
-    int epoch = 10000;
-    std::vector<int> HiddenLayout{5};
+    int epoch = 10;
+    std::vector<int> HiddenLayout{20,10};
 
     NeuralNetwork network;
     network.bLog = true;
@@ -48,6 +48,10 @@ int main() {
 
     network.PrintNetwork();
 
+    std::cout <<"\n\n";
+    std::cout << "-----------------------\n"
+                 "      test results\n"
+                 "-----------------------\n";
     auto TestData = Importer::GetTestData(TrainingData,10);
     for (const auto& data : TestData) {
         int prediction = network.Predict(data);
