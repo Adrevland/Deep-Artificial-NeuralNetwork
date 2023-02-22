@@ -36,7 +36,7 @@ void Neuron::InitWeights(int count) {
 }
 
 void Neuron::Activate(std::vector<Scalar> inputs) {
-    Activation = -Bias;
+    Activation = +Bias;
 
     for (size_t i{0}; i < WeightCount; i++) {
         Activation += Weights[i] * inputs[i];

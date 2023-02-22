@@ -97,7 +97,7 @@ void NeuralNetwork::UpdateWeights(std::vector<Scalar> &inputs, Scalar rate) {
                 weights[j] += rate * neuron.GetDelta() * NewInputs[j];
             }
             //update Bias
-            neuron.Bias -= rate * neuron.GetDelta();
+            neuron.Bias += rate * neuron.GetDelta();
         }
 
     }
@@ -132,16 +132,15 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
             BackwardPropagateError(expected);
             UpdateWeights(data, rate);
         }
-        errorSum /= (double) (normalData.size());
+        errorSum /= (double)(normalData.size());
         errorSum *= 100;
-        //errorSum /= (double) (outputs);
         if (errorSum <= MaxError) {
             std::cout << "Breaked out from training in " << i << " epochs" << std::endl;
             break;
         }
         //print 1% of epochs
-        if (bLog && i % (int)(epoch/100) == 0) {
-            std::cout << "Epoch=" << i << ", Rate =" << rate << ", Error=" << trunc(errorSum * 100) / 100 << "%"
+        if (bLog && (i+1) % (int)(epoch/100) == 0 || i+1 == epoch) {
+            std::cout << "Epoch=" << i+1 << ", Rate =" << rate << ", Error=" << trunc(errorSum * 100) / 100 << "%"
                       << std::endl;
         }
 

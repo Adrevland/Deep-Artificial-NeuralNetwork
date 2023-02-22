@@ -30,14 +30,14 @@ int main() {
     int inputSize = Importer::GetInputCount(TrainingData);
 
     float rate = 0.001f;
-    int epoch = 100000;
+    int epoch = 10000;
     std::vector<int> HiddenLayout{5};
 
     NeuralNetwork network;
     network.bLog = true;
 
-    network.OutputActivation = &Sigmoid;
-    network.OutputDerivativeActivation = &DerivateSigmoid;
+    network.OutputActivation = &LeakyReLU;
+    network.OutputDerivativeActivation = &DerivateLeakyReLU;
     network.HiddenActivation = &Sigmoid;
     network.HiddenDerivativeActivation = &DerivateSigmoid;
     network.MaxError = 1;
