@@ -1,9 +1,7 @@
-    #ifndef NEURALNETWORK_NEURON_H
+#ifndef NEURALNETWORK_NEURON_H
 #define NEURALNETWORK_NEURON_H
 
-//#include "Tensor.h"
-#include <random>
-//to fast change datatype
+#include <vector>
 
 typedef double Scalar;
 
@@ -15,9 +13,9 @@ class Neuron {
     Scalar GetDerivative();
     void Activate(std::vector<Scalar> inputs);
     void transfer();
-    Scalar GetOutput(){transfer();return Output;}
-    Scalar GetActivation(){return Activation;}
-    Scalar GetDelta(){return Delta;}
+    Scalar& GetOutput(){transfer();return Output;}
+    Scalar& GetActivation(){return Activation;}
+    Scalar& GetDelta(){return Delta;}
     std::vector<Scalar>& GetWeights(){return Weights;}
     void SetDelta(Scalar delta){Delta = delta;}
 
@@ -32,8 +30,6 @@ private:
     Scalar Output{0};
     Scalar Delta{0};
 
-    std::random_device rd;
-    std::mt19937 gen;
     void InitWeights(int WeightCount);
 };
 

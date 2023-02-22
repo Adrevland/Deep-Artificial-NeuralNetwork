@@ -27,10 +27,14 @@ public:
     Scalar (*HiddenDerivativeActivation)(Scalar){nullptr};
     Scalar (*OutputDerivativeActivation)(Scalar){nullptr};
 
+    //max error in %
+    Scalar MaxError{1};
+
 private:
     size_t LayerCount{0};
-    std::vector<Layer*> Layers;
-    Scalar MaxError{0.08};
+    std::vector<Layer> Layers;
+
+
 
     std::vector<std::vector<Scalar>> NormalizeData(std::vector<std::vector<Scalar>>& data);
     std::vector<Scalar> NormalizeData(std::vector<Scalar>& data);

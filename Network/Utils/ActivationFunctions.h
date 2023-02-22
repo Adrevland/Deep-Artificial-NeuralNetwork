@@ -24,6 +24,4 @@ Scalar DerivateBinaryStep(Scalar z){
 
 //make leaky ReLU
 
-
-
 #endif //NEURALNETWORK_ACTIVATIONFUNCTIONS_H

@@ -40,6 +40,7 @@ int main() {
     network.OutputDerivativeActivation = &DerivateSigmoid;
     network.HiddenActivation = &Sigmoid;
     network.HiddenDerivativeActivation = &DerivateSigmoid;
+    network.MaxError = 1;
 
     network.InitNetwork(inputSize,outputSize,HiddenLayout);
     network.Train(TrainingData, rate, epoch, outputSize,true);
