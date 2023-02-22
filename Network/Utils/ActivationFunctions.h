@@ -27,7 +27,6 @@ Scalar DerivateBinaryStep(Scalar z){
     return 0;
 }
 
-//todo fix ReLU. 100% wrong when using
 Scalar ReLU(Scalar z){
     return  z < 0 ? 0 : z;
 }
