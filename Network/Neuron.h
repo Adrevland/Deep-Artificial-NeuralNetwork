@@ -11,7 +11,7 @@ class Neuron {
     ~Neuron();
 
     Scalar GetDerivative();
-    void Activate(std::vector<Scalar> inputs);
+    void Activate(const std::vector<Scalar>& inputs);
     void transfer();
     Scalar& GetOutput(){transfer();return Output;}
     Scalar& GetActivation(){return Activation;}

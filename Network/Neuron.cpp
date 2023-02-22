@@ -40,7 +40,7 @@ void Neuron::InitWeights(int count) {
     //todo use HE weights for ReLU variants
 }
 
-void Neuron::Activate(std::vector<Scalar> inputs) {
+void Neuron::Activate(const std::vector<Scalar>& inputs) {
     Activation = +Bias;
 
     for (size_t i{0}; i < Weights.size(); i++) {
