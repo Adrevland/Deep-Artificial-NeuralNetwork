@@ -15,28 +15,25 @@ NeuralNetwork::~NeuralNetwork() {
     Layers.clear();
 }
 
-void NeuralNetwork::InitNetwork(int inputs, int outputs, int hidden) {
-    //hidden layer connected to input
-    AddLayer(hidden, inputs);
-    //output layer connected to hidden
-    AddLayer(outputs, hidden);
-}
-
 void NeuralNetwork::InitNetwork(int inputs, int outputs, std::vector<int> hiddenLayout) {
 
+    if(!HiddenDerivativeActivation || !HiddenActivation || !OutputDerivativeActivation || !OutputActivation){
+        std::cout << "Missing one of the activation functions in network" << std::endl;
+        return;
+    }
     //first hidden connected to input
-    AddLayer(hiddenLayout[0], inputs);
+    AddLayer(hiddenLayout[0], inputs,HiddenActivation,HiddenDerivativeActivation);
     //rest of the hidden layers
     if (hiddenLayout.size() >= 2)
         for (int i{1}; i < hiddenLayout.size(); i++) {
-            AddLayer(hiddenLayout[i], hiddenLayout[i - 1]);
+            AddLayer(hiddenLayout[i], hiddenLayout[i - 1],HiddenActivation,HiddenDerivativeActivation);
         }
     //output layer connected to hidden
-    AddLayer(outputs, hiddenLayout.back());
+    AddLayer(outputs, hiddenLayout.back(),OutputActivation,OutputDerivativeActivation);
 }
 
-void NeuralNetwork::AddLayer(int neurons, int weights) {
-    Layers.emplace_back(new Layer(neurons, weights));
+void NeuralNetwork::AddLayer(int neurons, int weights,Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar)) {
+    Layers.emplace_back(new Layer(neurons, weights,ActivateFunc,DerActivateFunc));
     LayerCount++;
 }
 
@@ -112,6 +109,11 @@ void NeuralNetwork::UpdateWeights(std::vector<Scalar> &inputs, Scalar rate) {
 
 void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar rate, size_t epoch, size_t outputs,
                           bool BNormalizeData) {
+    if(!HiddenDerivativeActivation || !HiddenActivation || !OutputDerivativeActivation || !OutputActivation){
+        std::cout << "Missing one of the activation functions in network" << std::endl;
+        return;
+    }
+
     MaxError = rate;
     DataNormalized = BNormalizeData;
     if (bLog)
@@ -136,19 +138,24 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
             UpdateWeights(data, rate);
         }
         errorSum /= (double) (normalData.size());
+        errorSum *=100;
         //errorSum /= (double) (outputs);
-        if (errorSum <= MaxError) {
+        if (errorSum <= MaxError*100) {
             std::cout << "Breaked out from training in " << i << " epochs" << std::endl;
             break;
         }
-        if (bLog) {
-            std::cout << "Epoch=" << i << ", Rate=" << rate << ", Error=" << errorSum << std::endl;
+        if (bLog && i%100==0) {
+            std::cout << "Epoch=" << i << ", Rate =" << rate << ", Error=" << trunc(errorSum*100)/100 <<"%"<< std::endl;
         }
 
     }
 }
 
 long NeuralNetwork::Predict(std::vector<Scalar> input) {
+    if(!HiddenDerivativeActivation || !HiddenActivation || !OutputDerivativeActivation || !OutputActivation){
+        std::cout << "Missing one of the activation functions in network" << std::endl;
+        return 0;
+    }
 
     auto normalInput = input;
     if (DataNormalized)

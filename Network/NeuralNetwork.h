@@ -11,9 +11,8 @@ public:
     NeuralNetwork();
     ~NeuralNetwork();
 
-    void InitNetwork(int inputs,int outputs, int hidden);
     void InitNetwork(int inputs,int outputs,std::vector<int> hiddenLayout);
-    void AddLayer(int neurons, int weights);
+    void AddLayer(int neurons, int weights, Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar));
     std::vector<Scalar> ForwardPropagate(std::vector<Scalar> inputs);
     void BackwardPropagateError(std::vector<Scalar> expected);
     void UpdateWeights(std::vector<Scalar>& inputs, Scalar rate);
@@ -22,6 +21,12 @@ public:
 
     void PrintNetwork();
     bool bLog{true};
+
+    Scalar (*HiddenActivation)(Scalar){nullptr};
+    Scalar (*OutputActivation)(Scalar){nullptr};
+    Scalar (*HiddenDerivativeActivation)(Scalar){nullptr};
+    Scalar (*OutputDerivativeActivation)(Scalar){nullptr};
+
 private:
     size_t LayerCount{0};
     std::vector<Layer*> Layers;

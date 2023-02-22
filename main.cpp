@@ -1,7 +1,8 @@
 #include <iostream>
 #include "Network/Utils/Importer.h"
 #include "Network/NeuralNetwork.h"
-#include <set>
+#include "Network/Utils/ActivationFunctions.h"
+
 
 int main() {
 
@@ -22,21 +23,24 @@ int main() {
 
     const bool AdvancedData{true};
     if(AdvancedData){
-        //TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv", false);
-        TrainingData = Importer::GetCSVfile("../DataSets/mnist_test.csv", true);
+        TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv", false);
+        //TrainingData = Importer::GetCSVfile("../DataSets/mnist_test.csv", true);
     }
     int outputSize = Importer::GetOutputCount(TrainingData);
     int inputSize = Importer::GetInputCount(TrainingData);
 
-    float rate = 0.08f;
-    int epoch = 500;
-    int hidden = 10;
-    std::vector<int> HiddenLayout{20};
+    float rate = 0.001f;
+    int epoch = 100000;
+    std::vector<int> HiddenLayout{5};
 
     NeuralNetwork network;
     network.bLog = true;
 
-    //network.InitNetwork(inputSize, outputSize,hidden );
+    network.OutputActivation = &Sigmoid;
+    network.OutputDerivativeActivation = &DerivateSigmoid;
+    network.HiddenActivation = &Sigmoid;
+    network.HiddenDerivativeActivation = &DerivateSigmoid;
+
     network.InitNetwork(inputSize,outputSize,HiddenLayout);
     network.Train(TrainingData, rate, epoch, outputSize,true);
 

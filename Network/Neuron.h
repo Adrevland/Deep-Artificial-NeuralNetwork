@@ -9,22 +9,10 @@ typedef double Scalar;
 
 class Neuron {
     public:
-    explicit Neuron(int WeightCount);
+    explicit Neuron(int WeightCount,Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar));
     ~Neuron();
 
-    static Scalar Sigmoid(const Scalar &z);
-    static Scalar DerivateSigmoid(const Scalar &z);
-    //static Tensor DerivateSigmoid(const Tensor &z);
-
-    static Scalar BinaryStep(const Scalar &z);
-    static Scalar DerivateBinaryStep(const Scalar &z);
-    //static Tensor DerivateBinaryStep(const Tensor &z);
-
-    //make leaky ReLU
-
-
     Scalar GetDerivative();
-
     void Activate(std::vector<Scalar> inputs);
     void transfer();
     Scalar GetOutput(){transfer();return Output;}
@@ -33,13 +21,10 @@ class Neuron {
     std::vector<Scalar>& GetWeights(){return Weights;}
     void SetDelta(Scalar delta){Delta = delta;}
 
-    enum ACTIVATION_FUNCTION{
-        sigmoid,
-        binaryStep
-
-    } ActivateFunction{sigmoid};
-
     Scalar Bias{0};
+
+    Scalar (*ActivationFunc)(Scalar);
+    Scalar (*DerActivationFunc)(Scalar);
 private:
     size_t WeightCount{0};
     std::vector<Scalar> Weights;

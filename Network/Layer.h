@@ -6,11 +6,11 @@
 
 class Layer {
 public:
-    Layer(int neurons, int weights);
+    Layer(int neurons, int weights,Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar));
     ~Layer();
     std::vector<Neuron*> GetNeurons(){return Neurons;}
 private:
-    void initNeurons(int neurons, int weights);
+    void initNeurons(int neurons, int weights,Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar));
     std::vector<Neuron*> Neurons;
 };
 
