@@ -2,7 +2,7 @@
 //#include "Utils/ActivationFunctions.h"
 #include "Utils/Random.h"
 
-Neuron::Neuron(int weightCount,Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar)) {
+Neuron::Neuron(int weightCount, Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar)) {
 
     InitWeights(weightCount);
     WeightCount = weightCount;
@@ -24,15 +24,17 @@ void Neuron::InitWeights(int count) {
         Bias = weight;
     }
 
-    //xavier weights for sigmoid and tanh // todo add tanh
+    //xavier weights for sigmoid and tanh
     //https://cs230.stanford.edu/section/4/
 
-        for (int i{0}; i < count; i++) {
-            double minvalue = -(1.0 / sqrt(count));
-            double Maxvalue = (1.0 / sqrt(count));
-            std::uniform_real_distribution<> distr(minvalue, Maxvalue);
-            Weights.push_back(distr(gen));
-        }
+    //todo only use for sigmoid and tanh
+    for (int i{0}; i < count; i++) {
+        double minvalue = -(1.0 / sqrt(count));
+        double Maxvalue = (1.0 / sqrt(count));
+        std::uniform_real_distribution<> distr(minvalue, Maxvalue);
+        Weights.push_back(distr(gen));
+    }
+   //todo use HE weights for ReLU variants
 }
 
 void Neuron::Activate(std::vector<Scalar> inputs) {
