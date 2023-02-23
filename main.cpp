@@ -30,18 +30,18 @@ int main() {
     int inputSize = Importer::GetInputCount(TrainingData);
 
     float rate = 0.001f;
-    int epoch = 10000;
+    int epoch = 100000;
     //std::vector<int> HiddenLayout{80,160,100,20};
     //std::vector<int> HiddenLayout{5,5};
-    std::vector<int> HiddenLayout{2,2};
+    std::vector<int> HiddenLayout{20};
     //std::vector<int> HiddenLayout{64,16};
 
     NeuralNetwork network;
     network.bLog = true;
 
-    network.OutputActivation = &Sigmoid;
-    network.OutputDerivativeActivation = &DerivateSigmoid;
-    network.HiddenLayerWeightInitType = WeightInitializing::XAVIER;
+    network.OutputActivation = &LeakyReLU;
+    network.OutputDerivativeActivation = &DerivateLeakyReLU;
+    network.HiddenLayerWeightInitType = WeightInitializing::HE;
     network.HiddenActivation = &Sigmoid;
     network.HiddenDerivativeActivation = &DerivateSigmoid;
     network.HiddenLayerWeightInitType = WeightInitializing::XAVIER;
@@ -59,7 +59,8 @@ int main() {
     auto TestData = Importer::GetTestData(TrainingData,20);
     for (const auto& data : TestData) {
         int prediction = network.Predict(data);
-        std::cout << "\tExpected=" << data.back() << ", Got=" << prediction << std::endl;
+        std::cout << "\tExpected=" << data.back() << ", Predicted=" << prediction;
+        std::cout << "\t\t"<< (data.back() == prediction ? "Correct" : "<------") << std::endl;
     }
     return 0;
 
