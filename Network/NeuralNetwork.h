@@ -12,7 +12,7 @@ public:
     ~NeuralNetwork();
 
     void InitNetwork(int inputs,int outputs,std::vector<int> hiddenLayout);
-    void AddLayer(int neurons, int weights, Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar));
+    void AddLayer(int neurons, int weights, Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar),WeightInitializing& WeightType);
     std::vector<Scalar> ForwardPropagate(std::vector<Scalar> inputs);
     void BackwardPropagateError(std::vector<Scalar> expected);
     void UpdateWeights(std::vector<Scalar>& inputs, Scalar rate);
@@ -29,6 +29,9 @@ public:
 
     //max error in %
     Scalar MaxError{1};
+
+    WeightInitializing HiddenLayerWeightInitType{WeightInitializing::XAVIER};
+    WeightInitializing OutputLayerWeightInitType{WeightInitializing::XAVIER};
 
 private:
     size_t LayerCount{0};

@@ -30,22 +30,25 @@ int main() {
     int inputSize = Importer::GetInputCount(TrainingData);
 
     float rate = 0.001f;
-    int epoch = 100000;
+    int epoch = 10000;
     //std::vector<int> HiddenLayout{80,160,100,20};
-    std::vector<int> HiddenLayout{5};
+    std::vector<int> HiddenLayout{5,5};
+    //std::vector<int> HiddenLayout{20,10,10};
+    //std::vector<int> HiddenLayout{64,16};
 
     NeuralNetwork network;
     network.bLog = true;
 
-    network.OutputActivation = &Sigmoid;
-    network.OutputDerivativeActivation = &DerivateSigmoid;
+    network.OutputActivation = &LeakyReLU;
+    network.OutputDerivativeActivation = &DerivateLeakyReLU;
+    network.HiddenLayerWeightInitType = WeightInitializing::HE;
     network.HiddenActivation = &Sigmoid;
     network.HiddenDerivativeActivation = &DerivateSigmoid;
+    network.HiddenLayerWeightInitType = WeightInitializing::XAVIER;
     network.MaxError = 1.0;
 
     network.InitNetwork(inputSize,outputSize,HiddenLayout);
     network.Train(TrainingData, rate, epoch, outputSize,true);
-
 
     network.PrintNetwork();
 

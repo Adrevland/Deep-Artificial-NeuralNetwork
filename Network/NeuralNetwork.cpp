@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Utils/Importer.h"
 #include <chrono>
+#include <cmath>
 
 NeuralNetwork::NeuralNetwork() {
 
@@ -20,19 +21,19 @@ void NeuralNetwork::InitNetwork(int inputs, int outputs, std::vector<int> hidden
         return;
     }
     //first hidden connected to input
-    AddLayer(hiddenLayout[0], inputs, HiddenActivation, HiddenDerivativeActivation);
+    AddLayer(hiddenLayout[0], inputs, HiddenActivation, HiddenDerivativeActivation,HiddenLayerWeightInitType);
     //rest of the hidden layers
     if (hiddenLayout.size() >= 2)
         for (int i{1}; i < hiddenLayout.size(); i++) {
-            AddLayer(hiddenLayout[i], hiddenLayout[i - 1], HiddenActivation, HiddenDerivativeActivation);
+            AddLayer(hiddenLayout[i], hiddenLayout[i - 1], HiddenActivation, HiddenDerivativeActivation,HiddenLayerWeightInitType);
         }
     //output layer connected to hidden
-    AddLayer(outputs, hiddenLayout.back(), OutputActivation, OutputDerivativeActivation);
+    AddLayer(outputs, hiddenLayout.back(), OutputActivation, OutputDerivativeActivation,OutputLayerWeightInitType);
 }
 
 void
-NeuralNetwork::AddLayer(int neurons, int weights, Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar)) {
-    Layers.emplace_back(neurons, weights, ActivateFunc, DerActivateFunc);
+NeuralNetwork::AddLayer(int neurons, int weights, Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar), WeightInitializing& WeightType) {
+    Layers.emplace_back(neurons, weights, ActivateFunc, DerActivateFunc,WeightType);
     LayerCount++;
 }
 

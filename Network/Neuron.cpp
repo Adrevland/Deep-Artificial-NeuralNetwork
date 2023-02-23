@@ -2,9 +2,9 @@
 //#include "Utils/ActivationFunctions.h"
 #include "Utils/Random.h"
 
-Neuron::Neuron(int weightCount, Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar)) {
+Neuron::Neuron(int weightCount, Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar), WeightInitializing& WeightType) {
 
-    InitWeights(weightCount);
+    InitWeights(weightCount,WeightType);
     //WeightCount = weightCount;
 
     ActivationFunc = ActivateFunc;
@@ -15,9 +15,7 @@ Neuron::~Neuron() {
 
 }
 
-void Neuron::InitWeights(int count) {
-
-
+void Neuron::InitWeights(int count, WeightInitializing& WeightType) {
 
     //set by Stanford university bias
     //https://cs231n.github.io/neural-networks-2/
@@ -29,15 +27,26 @@ void Neuron::InitWeights(int count) {
 
     //HE weights for ReLU
     //weight = G (0.0, sqrt(2/n))
+    double minValue{0};
+    double maxValue{0};
+    switch (WeightType) {
+        case XAVIER : {
+            minValue = -(1.0 / sqrt(count));
+            maxValue = (1.0 / sqrt(count));
+            break;
+        }
+        case HE : {
+            minValue = 0.0;
+            maxValue = sqrt(2.0/count);
+            break;
+        }
+    }
 
-    //todo only use for sigmoid and tanh
     for (int i{0}; i < count; i++) {
-        double minvalue = -(1.0 / sqrt(count));
-        double Maxvalue = (1.0 / sqrt(count));
-        std::uniform_real_distribution<> distr(minvalue, Maxvalue);
+        std::uniform_real_distribution<> distr(minValue, maxValue);
         Weights.push_back(distr(gen));
     }
-    //todo use HE weights for ReLU variants
+
 }
 
 void Neuron::Activate(const std::vector<Scalar>& inputs) {

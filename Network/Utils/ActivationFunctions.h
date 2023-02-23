@@ -4,10 +4,7 @@
 #include <cmath>
 
 typedef double Scalar;
-
-
 //Sigmoid function 1/(1+e^-x)
-
 Scalar Sigmoid(Scalar z){
     return 1.0 / (1.0 + std::exp(-z));
 }

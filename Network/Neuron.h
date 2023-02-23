@@ -2,12 +2,16 @@
 #define NEURALNETWORK_NEURON_H
 
 #include <vector>
-
 typedef double Scalar;
+
+enum WeightInitializing{
+    XAVIER,
+    HE
+};
 
 class Neuron {
     public:
-    explicit Neuron(int WeightCount,Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar));
+    explicit Neuron(int WeightCount,Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar),WeightInitializing& WeightType);
     ~Neuron();
 
     Scalar GetDerivative();
@@ -30,7 +34,7 @@ private:
     Scalar Output{0};
     Scalar Delta{0};
 
-    void InitWeights(int WeightCount);
+    void InitWeights(int WeightCount, WeightInitializing& WeightType);
 };
 
 
