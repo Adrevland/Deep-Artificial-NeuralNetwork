@@ -139,6 +139,7 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
             //binary exception vector
             std::vector<Scalar> expected(outputs, 0.0);
             expected[static_cast<int>(data.back())] = 1.0;
+            //todo map data output to output neurons
             for (size_t j{0}; j < outputs; j++) {
                 errorSum += std::pow(expected[j] - out[j], 2);
             }
@@ -176,7 +177,7 @@ long NeuralNetwork::Predict(std::vector<Scalar> input) {
 
     auto normalInput = input;
     if (DataNormalized)
-        auto normalInput = NormalizeData(input);
+        normalInput = NormalizeData(input);
     auto outputs = ForwardPropagate(normalInput);
     return std::max_element(outputs.begin(), outputs.end()) - outputs.begin();
 }
@@ -226,7 +227,7 @@ std::vector<std::vector<Scalar>> NeuralNetwork::NormalizeData(std::vector<std::v
     for (auto &line: data) {
         std::vector<Scalar> normalLine;
         for (auto i: line) {
-            normalLine.emplace_back(normalize(i, MaxValue, MinValue));
+            normalLine.emplace_back(normalize(i, MinValue, MaxValue));
         }
         //copy answer
         normalLine.back() = line.back();
@@ -242,7 +243,7 @@ std::vector<Scalar> NeuralNetwork::NormalizeData(std::vector<Scalar> &data) {
     };
     std::vector<Scalar> normalLine;
     for (auto i: data) {
-        normalLine.emplace_back(normalize(i, MaxValue, MinValue));
+        normalLine.emplace_back(normalize(i, MinValue, MaxValue));
     }
 
     //if input data is larger than output count then copy answer
@@ -250,6 +251,24 @@ std::vector<Scalar> NeuralNetwork::NormalizeData(std::vector<Scalar> &data) {
         normalLine.back() = data.back();
     }
     return normalLine;
+}
+
+std::vector<Scalar> NeuralNetwork::PredictSoftMaxOutput(std::vector<Scalar> &input) {
+    //todo fix softmax
+    auto normalInput = input;
+    if (DataNormalized)
+        normalInput = NormalizeData(input);
+    auto outputs = ForwardPropagate(normalInput);
+    std::vector<Scalar> SoftMaxed = outputs;
+    for(int i{0}; i < outputs.size(); i++){
+        double probSum{0.0};
+        for(int j{0}; j < outputs.size();j++){
+            probSum += std::exp(outputs[j]);
+        }
+        SoftMaxed[i] = std::exp(outputs[i])/probSum;
+    }
+
+    return SoftMaxed;
 }
 
 

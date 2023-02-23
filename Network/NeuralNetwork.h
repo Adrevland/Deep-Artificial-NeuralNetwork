@@ -21,10 +21,9 @@ public:
     void UpdateWeights(std::vector<Scalar>& inputs, Scalar rate);
     void Train(std::vector<std::vector<Scalar>>trainingData, Scalar rate, size_t epoch, size_t outputs, bool BNormalizeData = true);
     long Predict(std::vector<Scalar> input);
-
     void PrintNetwork();
     bool bLog{true};
-
+    std::vector<Scalar> PredictSoftMaxOutput(std::vector<Scalar>& input);
     Scalar (*HiddenActivation)(Scalar){nullptr};
     Scalar (*OutputActivation)(Scalar){nullptr};
     Scalar (*HiddenDerivativeActivation)(Scalar){nullptr};
