@@ -5,7 +5,11 @@
 typedef double Scalar;
 
 enum WeightInitializing{
+    //xavier weights for sigmoid and tanh
+    //https://cs230.stanford.edu/section/4/
     XAVIER,
+    //HE weights for ReLU kinds
+    //https://cs231n.github.io/neural-networks-2/
     HE
 };
 

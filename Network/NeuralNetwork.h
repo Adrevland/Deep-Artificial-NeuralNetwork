@@ -6,8 +6,11 @@
 #include "Layer.h"
 #include <iostream>
 
+//Defaults to HiddenLayer using  LReLU
+//Defaults to OutputLayer Using Sigmoid
 class NeuralNetwork {
 public:
+
     NeuralNetwork();
     ~NeuralNetwork();
 

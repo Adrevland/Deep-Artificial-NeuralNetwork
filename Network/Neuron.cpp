@@ -17,13 +17,7 @@ Neuron::~Neuron() {
 
 void Neuron::InitWeights(int count, WeightInitializing& WeightType) {
 
-    //set by Stanford university bias
-    //https://cs231n.github.io/neural-networks-2/
     Bias = 0.01;
-
-
-    //xavier weights for sigmoid and tanh
-    //https://cs230.stanford.edu/section/4/
 
     //HE weights for ReLU
     //weight = G (0.0, sqrt(2/n))

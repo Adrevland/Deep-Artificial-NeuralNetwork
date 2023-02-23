@@ -32,16 +32,16 @@ int main() {
     float rate = 0.001f;
     int epoch = 10000;
     //std::vector<int> HiddenLayout{80,160,100,20};
-    std::vector<int> HiddenLayout{5,5};
-    //std::vector<int> HiddenLayout{20,10,10};
+    //std::vector<int> HiddenLayout{5,5};
+    std::vector<int> HiddenLayout{2,2};
     //std::vector<int> HiddenLayout{64,16};
 
     NeuralNetwork network;
     network.bLog = true;
 
-    network.OutputActivation = &LeakyReLU;
-    network.OutputDerivativeActivation = &DerivateLeakyReLU;
-    network.HiddenLayerWeightInitType = WeightInitializing::HE;
+    network.OutputActivation = &Sigmoid;
+    network.OutputDerivativeActivation = &DerivateSigmoid;
+    network.HiddenLayerWeightInitType = WeightInitializing::XAVIER;
     network.HiddenActivation = &Sigmoid;
     network.HiddenDerivativeActivation = &DerivateSigmoid;
     network.HiddenLayerWeightInitType = WeightInitializing::XAVIER;
@@ -56,7 +56,7 @@ int main() {
     std::cout << "-----------------------\n"
                  "      test results\n"
                  "-----------------------\n";
-    auto TestData = Importer::GetTestData(TrainingData,10);
+    auto TestData = Importer::GetTestData(TrainingData,20);
     for (const auto& data : TestData) {
         int prediction = network.Predict(data);
         std::cout << "\tExpected=" << data.back() << ", Got=" << prediction << std::endl;

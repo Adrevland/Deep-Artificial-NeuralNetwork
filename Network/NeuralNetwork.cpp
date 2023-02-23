@@ -5,9 +5,18 @@
 #include "Utils/Importer.h"
 #include <chrono>
 #include <cmath>
+//#include "Utils/ActivationFunctions.h"
 
 NeuralNetwork::NeuralNetwork() {
 
+    /*
+    OutputActivation = &LeakyReLU;
+    OutputDerivativeActivation = &DerivateLeakyReLU;
+    HiddenLayerWeightInitType = WeightInitializing::HE;
+    HiddenActivation = &Sigmoid;
+    HiddenDerivativeActivation = &DerivateSigmoid;
+    HiddenLayerWeightInitType = WeightInitializing::XAVIER;
+     */
 }
 
 NeuralNetwork::~NeuralNetwork() {
@@ -95,7 +104,7 @@ void NeuralNetwork::UpdateWeights(std::vector<Scalar> &inputs, Scalar rate) {
         auto& layerNeurons = Layers[i].GetNeurons();
         for (auto& neuron: layerNeurons) {
             auto &weights = neuron.GetWeights();
-            for (size_t j = 0; j < NewInputs.size() - 1; j++) {
+            for (size_t j = 0; j < NewInputs.size(); j++) {
                 //update weights
                 weights[j] += rate * neuron.GetDelta() * NewInputs[j];
             }
