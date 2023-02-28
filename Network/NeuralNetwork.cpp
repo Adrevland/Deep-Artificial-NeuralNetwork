@@ -270,44 +270,5 @@ std::vector<Scalar> NeuralNetwork::PredictSoftMaxOutput(std::vector<Scalar> &inp
     return SoftMaxed;
 }
 
-std::vector<std::map<std::string, double>>& NeuralNetwork::BuildQTable(int &states, std::vector<std::string> actions) {
-
-    Actions = actions;
-    for(int i{0}; i < states; i++){
-        std::map<std::string, double> Qtmp;
-        for(auto& a : actions){
-            Qtmp.insert({a,0.0});
-        }
-        QTable.emplace_back(Qtmp);
-    }
-
-    return QTable;
-}
-
-std::string NeuralNetwork::ChooseAction(const int &state) {
-    std::uniform_real_distribution<> distr(0.0, 1.0);
-    double rand{distr(gen)};
-    std::string returnAction;
-
-    //exploit "Get best value from QTable"
-    if(rand < Epsilon){
-        auto actions = QTable[state];
-        double MaxState{0.0};
-        for(auto &s: actions){
-            if(s.second >= MaxState){
-                MaxState = s.second;
-                returnAction = s.first;
-            }
-        }
-    }
-    else{
-        //explore
-        std::uniform_int_distribution<> idistr(0,Actions.size()-1);
-        int iRand {idistr(gen)};
-        returnAction = Actions[iRand];
-    }
-    return returnAction;
-}
-
 
 
