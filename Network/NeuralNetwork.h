@@ -29,8 +29,7 @@ public:
     Scalar (*HiddenDerivativeActivation)(Scalar){nullptr};
     Scalar (*OutputDerivativeActivation)(Scalar){nullptr};
 
-    //max error in %
-    Scalar MaxError{1};
+    Scalar MaxMSE{0.0001};
 
     WeightInitializing HiddenLayerWeightInitType{WeightInitializing::XAVIER};
     WeightInitializing OutputLayerWeightInitType{WeightInitializing::XAVIER};

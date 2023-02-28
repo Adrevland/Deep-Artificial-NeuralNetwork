@@ -104,7 +104,7 @@ void NeuralNetwork::UpdateWeights(std::vector<Scalar> &inputs, Scalar rate) {
         auto& layerNeurons = Layers[i].GetNeurons();
         for (auto& neuron: layerNeurons) {
             auto &weights = neuron.GetWeights();
-            for (size_t j = 0; j < NewInputs.size(); j++) {
+            for (size_t j = 0; j < weights.size(); j++) {
                 //update weights
                 weights[j] += rate * neuron.GetDelta() * NewInputs[j];
             }
@@ -133,33 +133,31 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
 
 
     for (size_t i{0}; i < epoch; i++) {
-        Scalar errorSum{0};
+        Scalar MSE{0};
         for (auto &data: normalData) {
             auto out = ForwardPropagate(data);
             //binary exception vector
             std::vector<Scalar> expected(outputs, 0.0);
             expected[static_cast<int>(data.back())] = 1.0;
             //todo map data output to output neurons
+
             for (size_t j{0}; j < outputs; j++) {
-                errorSum += std::pow(expected[j] - out[j], 2);
+                MSE += std::pow(expected[j] - out[j], 2);
             }
             BackwardPropagateError(expected);
             UpdateWeights(data, rate);
         }
-        errorSum /= (double)(normalData.size());
-        errorSum *= 100;
-        if (errorSum <= MaxError) {
+        MSE *= 1.0/(double)(normalData.size());
+        if (MSE <= MaxMSE) {
             std::cout << "Breaked out from training in " << i << " epochs" << std::endl;
-            std::cout << "Epoch=" << i+1 << ", Rate=" << rate << ", Error=" << trunc(errorSum * 100) / 100 << "%"
-                      << std::endl;
+            std::cout << "Epoch=" << i+1 << ", Rate=" << rate << ", MSE=" << MSE<< std::endl;
             break;
         }
         //print 1% of epochs
         if (bLog) {
             if(epoch>100)
             if((i+1) % (int)(epoch/100) == 0|| i+1 == epoch){
-                std::cout << "Epoch=" << i+1 << ", Rate=" << rate << ", Error=" << trunc(errorSum * 100) / 100 << "%"
-                          << std::endl;
+                std::cout << "Epoch=" << i+1 << ", Rate=" << rate << ", MSE=" << MSE << std::endl;
             }
 
         }
@@ -254,7 +252,6 @@ std::vector<Scalar> NeuralNetwork::NormalizeData(std::vector<Scalar> &data) {
 }
 
 std::vector<Scalar> NeuralNetwork::PredictSoftMaxOutput(std::vector<Scalar> &input) {
-    //todo fix softmax
     auto normalInput = input;
     if (DataNormalized)
         normalInput = NormalizeData(input);

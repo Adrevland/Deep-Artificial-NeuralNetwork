@@ -23,29 +23,30 @@ int main() {
 
     const bool AdvancedData{true};
     if(AdvancedData){
-        TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv", false);
-        //TrainingData = Importer::GetCSVfile("../DataSets/mnist_test.csv", true);
+        //TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv", false);
+        TrainingData = Importer::GetCSVfile("../DataSets/mnist_test.csv", true);
     }
     int outputSize = Importer::GetOutputCount(TrainingData);
     int inputSize = Importer::GetInputCount(TrainingData);
 
     float rate = 0.001f;
-    int epoch = 3000;
+    int epoch = 1000;
     //std::vector<int> HiddenLayout{80,160,100,20};
     std::vector<int> HiddenLayout{5,5};
+    //std::vector<int> HiddenLayout{10};
     //std::vector<int> HiddenLayout{20};
     //std::vector<int> HiddenLayout{64,16};
 
     NeuralNetwork network;
     network.bLog = true;
 
-    network.OutputActivation = &LeakyReLU;
-    network.OutputDerivativeActivation = &DerivateLeakyReLU;
-    network.HiddenLayerWeightInitType = WeightInitializing::HE;
     network.HiddenActivation = &Sigmoid;
     network.HiddenDerivativeActivation = &DerivateSigmoid;
     network.HiddenLayerWeightInitType = WeightInitializing::XAVIER;
-    network.MaxError = 1.0;
+    network.OutputActivation = &Sigmoid;
+    network.OutputDerivativeActivation = &DerivateSigmoid;
+    network.OutputLayerWeightInitType = WeightInitializing::XAVIER;
+    network.MaxMSE = 0.001;
 
     network.InitNetwork(inputSize,outputSize,HiddenLayout);
     network.Train(TrainingData, rate, epoch, outputSize,true);
@@ -56,7 +57,7 @@ int main() {
     std::cout << "-----------------------\n"
                  "      test results\n"
                  "-----------------------\n";
-    auto TestData = Importer::GetTestData(TrainingData,20);
+    auto TestData = Importer::GetTestData(TrainingData,10);
     for (auto& data : TestData) {
         int prediction = network.Predict(data);
         auto softmax = network.PredictSoftMaxOutput(data);
