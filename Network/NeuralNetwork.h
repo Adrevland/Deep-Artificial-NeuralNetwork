@@ -5,6 +5,9 @@
 #include <vector>
 #include "Layer.h"
 #include <iostream>
+#include <map>
+#include <deque>
+#include <utility>
 
 //Defaults to HiddenLayer using  LReLU
 //Defaults to OutputLayer Using Sigmoid
@@ -22,6 +25,14 @@ public:
     void Train(std::vector<std::vector<Scalar>>trainingData, Scalar rate, size_t epoch, size_t outputs, bool BNormalizeData = true);
     long Predict(std::vector<Scalar> input);
     void PrintNetwork();
+
+    //DQN
+
+    std::vector<std::map<std::string, double>>& BuildQTable(int& states, std::vector<std::string> actions);
+    std::string ChooseAction(const int& state);
+
+
+
     bool bLog{true};
     std::vector<Scalar> PredictSoftMaxOutput(std::vector<Scalar>& input);
     Scalar (*HiddenActivation)(Scalar){nullptr};
@@ -43,6 +54,14 @@ private:
     double MaxValue = std::numeric_limits<double>().min();
     double MinValue = std::numeric_limits<double>().max();
     bool DataNormalized{false};
+
+    //Q-Stuff
+    std::vector<std::map<std::string,double>> QTable;
+    std::vector<std::string>Actions;
+    //double edged queue for memory of pair<action, score>
+    std::deque<std::pair<std::string, double>> ReplayMemory;
+    Scalar Epsilon{1.0};
+
 };
 
 

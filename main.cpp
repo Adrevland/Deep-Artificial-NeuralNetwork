@@ -24,15 +24,17 @@ int main() {
     const bool AdvancedData{true};
     if(AdvancedData){
         //TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv", false);
-        TrainingData = Importer::GetCSVfile("../DataSets/mnist_test.csv", true);
+        //TrainingData = Importer::GetCSVfile("../DataSets/mnist_test.csv", true);
+        TrainingData = Importer::GetCSVfile("../DataSets/mnist_train.csv", true);
     }
     int outputSize = Importer::GetOutputCount(TrainingData);
     int inputSize = Importer::GetInputCount(TrainingData);
 
-    float rate = 0.001f;
-    int epoch = 1000;
+    float rate = 0.01f;
+    int epoch = 10;
     //std::vector<int> HiddenLayout{80,160,100,20};
-    std::vector<int> HiddenLayout{5,5};
+    //std::vector<int> HiddenLayout{5,5};
+    std::vector<int> HiddenLayout{12,8};
     //std::vector<int> HiddenLayout{10};
     //std::vector<int> HiddenLayout{20};
     //std::vector<int> HiddenLayout{64,16};
@@ -57,7 +59,7 @@ int main() {
     std::cout << "-----------------------\n"
                  "      test results\n"
                  "-----------------------\n";
-    auto TestData = Importer::GetTestData(TrainingData,10);
+    auto TestData = Importer::GetTestData(TrainingData,30);
     for (auto& data : TestData) {
         int prediction = network.Predict(data);
         auto softmax = network.PredictSoftMaxOutput(data);
