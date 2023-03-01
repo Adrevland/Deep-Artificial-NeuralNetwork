@@ -6,8 +6,6 @@
 
 int main() {
 
-
-
     std::vector<std::vector<Scalar>> TrainingData {
             {2.7810836,		2.550537003,	0},
             {1.465489372,	2.362125076,	0},
@@ -23,15 +21,15 @@ int main() {
 
     const bool AdvancedData{true};
     if(AdvancedData){
-        //TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv", false);
+        TrainingData = Importer::GetCSVfile("../DataSets/Seed.csv", false);
         //TrainingData = Importer::GetCSVfile("../DataSets/mnist_test.csv", true);
-        TrainingData = Importer::GetCSVfile("../DataSets/mnist_train.csv", true);
+        //TrainingData = Importer::GetCSVfile("../DataSets/mnist_train.csv", true);
     }
     int outputSize = Importer::GetOutputCount(TrainingData);
     int inputSize = Importer::GetInputCount(TrainingData);
 
     float rate = 0.01f;
-    int epoch = 10;
+    int epoch = 1000;
     //std::vector<int> HiddenLayout{80,160,100,20};
     //std::vector<int> HiddenLayout{5,5};
     std::vector<int> HiddenLayout{12,8};
@@ -42,9 +40,9 @@ int main() {
     NeuralNetwork network;
     network.bLog = true;
 
-    network.HiddenActivation = &Sigmoid;
-    network.HiddenDerivativeActivation = &DerivateSigmoid;
-    network.HiddenLayerWeightInitType = WeightInitializing::XAVIER;
+    network.HiddenActivation = &ReLU;
+    network.HiddenDerivativeActivation = &DerivateReLU;
+    network.HiddenLayerWeightInitType = WeightInitializing::HE;
     network.OutputActivation = &Sigmoid;
     network.OutputDerivativeActivation = &DerivateSigmoid;
     network.OutputLayerWeightInitType = WeightInitializing::XAVIER;

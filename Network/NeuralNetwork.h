@@ -20,15 +20,14 @@ public:
     void InitNetwork(int inputs,int outputs,std::vector<int> hiddenLayout);
     void AddLayer(int neurons, int weights, Scalar (*ActivateFunc)(Scalar), Scalar (*DerActivateFunc)(Scalar),WeightInitializing& WeightType);
     std::vector<Scalar> ForwardPropagate(std::vector<Scalar> inputs);
-    void BackwardPropagateError(std::vector<Scalar> expected);
+    void BackwardPropagateError(std::vector<Scalar> &expected);
     void UpdateWeights(std::vector<Scalar>& inputs, Scalar rate);
     void Train(std::vector<std::vector<Scalar>>trainingData, Scalar rate, size_t epoch, size_t outputs, bool BNormalizeData = true);
     long Predict(std::vector<Scalar> input);
     void PrintNetwork();
 
     //DQN
-
-
+    long EpsilonGreedy(const std::vector<Scalar>& States);
 
     bool bLog{true};
     std::vector<Scalar> PredictSoftMaxOutput(std::vector<Scalar>& input);
@@ -53,8 +52,17 @@ private:
     bool DataNormalized{false};
 
     //Q-Stuff
-    std::vector<std::string>Actions;
+    //https://neuro.cs.ut.ee/demystifying-deep-reinforcement-learning/
+    void TrainDQN(std::vector<Scalar>States,std::vector<Scalar>Outputs, Scalar rate);
+
     //double edged queue for memory of pair<action, score>
+    struct ReplayMemory{
+        std::vector<Scalar> States;
+        int Action{0};
+        Scalar Reward{0.0};
+        std::vector<Scalar> NextStates;
+
+    };
     std::deque<std::pair<int, double>> ReplayMemory;
     Scalar Epsilon{1.0};
 

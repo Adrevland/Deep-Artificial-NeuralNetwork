@@ -67,7 +67,7 @@ std::vector<Scalar> NeuralNetwork::ForwardPropagate(std::vector<Scalar> inputs) 
     return NewInputs;
 }
 
-void NeuralNetwork::BackwardPropagateError(std::vector<Scalar> expected) {
+void NeuralNetwork::BackwardPropagateError(std::vector<Scalar> &expected) {
     //itterate backwards
 
     //for (int i = Layers.size()-1; i >= 0;i--) {
@@ -259,15 +259,53 @@ std::vector<Scalar> NeuralNetwork::PredictSoftMaxOutput(std::vector<Scalar> &inp
         normalInput = NormalizeData(input);
     auto outputs = ForwardPropagate(normalInput);
     std::vector<Scalar> SoftMaxed = outputs;
+    double maxValue = *std::max(outputs.begin(),outputs.end());
+
+    double t{0};
+    for(auto& i : outputs){
+        t += std::exp(maxValue-i);
+
+    }
+
+    double probSum{0.0};
+    for(int j{0}; j < outputs.size();j++){
+        probSum += std::exp(outputs[j]/t);
+    }
     for(int i{0}; i < outputs.size(); i++){
-        double probSum{0.0};
-        for(int j{0}; j < outputs.size();j++){
-            probSum += std::exp(outputs[j]);
-        }
-        SoftMaxed[i] = std::exp(outputs[i])/probSum;
+        SoftMaxed[i] = std::exp(outputs[i]/t)/probSum;
+    }
+
+    double sum{0.0};
+    for(auto& a:SoftMaxed){
+        sum+=a;
     }
 
     return SoftMaxed;
+}
+
+void NeuralNetwork::TrainDQN(std::vector<Scalar> States, std::vector<Scalar> Outputs, Scalar rate) {
+
+    ForwardPropagate(States);
+    BackwardPropagateError(Outputs);
+    UpdateWeights(States, rate);
+}
+
+long NeuralNetwork::EpsilonGreedy(const std::vector<Scalar> &States) {
+    auto dist =std::uniform_int_distribution<>(0,100);
+    //explore
+    if(Epsilon < dist(gen)/100.0){
+       int outputs =  Layers.back().GetNeurons().size()-1;
+       auto randAction = std::uniform_int_distribution<>(0,outputs);
+       //reset Epsilon
+       Epsilon = 1.0;
+       return randAction(gen);
+    }
+    //else exploit
+
+    //Decrement Epsilon
+    Epsilon -= 0.01;
+
+    return Predict(States);
 }
 
 
