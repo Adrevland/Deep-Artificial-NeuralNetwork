@@ -3,15 +3,11 @@
 #include "Utils/Random.h"
 
 QActor::QActor() {
-
-
-
-    //MainNetwork = TrainingNetwork;
 }
 
 QActor::~QActor() {
-
 }
+
 void QActor::InitQNetwork(std::vector<int> &NetworkLayout, int &inputs, int &actions) {
     TrainingNetwork.InitNetwork(inputs,actions,NetworkLayout);
 
@@ -24,6 +20,8 @@ void QActor::InitQNetwork(std::vector<int> &NetworkLayout, int &inputs, int &act
     TrainingNetwork.OutputActivation = &Linear;
     TrainingNetwork.OutputDerivativeActivation = &DerivateLinear;
     TrainingNetwork.OutputLayerWeightInitType = WeightInitializing::XAVIER;
+
+    MainNetwork = TrainingNetwork;
 }
 
 void QActor::AddMemory(std::vector<Scalar> states, int action, Scalar reward, std::vector<Scalar> nextStates) {
@@ -45,7 +43,7 @@ void QActor::Learn() {
     }
     //copy network every 100 episodes
     if(EpisodeCount % 100 == 0 ){
-        //MainNetwork = TrainingNetwork;
+        MainNetwork = TrainingNetwork;
     }
 
     //learn
