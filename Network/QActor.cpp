@@ -9,7 +9,7 @@ QActor::~QActor() {
 }
 
 void QActor::InitQNetwork(std::vector<int> &NetworkLayout, int &inputs, int &actions) {
-    TrainingNetwork.InitNetwork(inputs,actions,NetworkLayout);
+
 
     TrainingNetwork.bLog = false;
 
@@ -20,6 +20,8 @@ void QActor::InitQNetwork(std::vector<int> &NetworkLayout, int &inputs, int &act
     TrainingNetwork.OutputActivation = &Linear;
     TrainingNetwork.OutputDerivativeActivation = &DerivateLinear;
     TrainingNetwork.OutputLayerWeightInitType = WeightInitializing::XAVIER;
+
+    TrainingNetwork.InitNetwork(inputs,actions,NetworkLayout);
 
     MainNetwork = TrainingNetwork;
 }
