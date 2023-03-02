@@ -2,27 +2,28 @@
 #include "Utils/ActivationFunctions.h"
 #include "Utils/Random.h"
 
-QActor::QActor(std::vector<int> &NetworkLayout, int& inputs, int &actions) {
-
-    TrainingNetwork.InitNetwork(inputs,actions,NetworkLayout);
-
-    TrainingNetwork.bLog = false;
-
-    TrainingNetwork.HiddenActivation = &ReLU;
-    TrainingNetwork.HiddenDerivativeActivation = &DerivateReLU;
-    TrainingNetwork.HiddenLayerWeightInitType = WeightInitializing::HE;
-
-    TrainingNetwork.OutputActivation = &Linear;
-    TrainingNetwork.OutputDerivativeActivation = &DerivateLinear;
-    TrainingNetwork.OutputLayerWeightInitType = WeightInitializing::XAVIER;
+QActor::QActor() {
 
 
 
-    MainNetwork = TrainingNetwork;
+    //MainNetwork = TrainingNetwork;
 }
 
 QActor::~QActor() {
 
+}
+void QActor::InitQNetwork(std::vector<int> &NetworkLayout, int &inputs, int &actions) {
+    TrainingNetwork.InitNetwork(inputs,actions,NetworkLayout);
+
+    TrainingNetwork.bLog = false;
+
+    //TrainingNetwork.HiddenActivation = &ReLU;
+    //TrainingNetwork.HiddenDerivativeActivation = &DerivateReLU;
+    TrainingNetwork.HiddenLayerWeightInitType = WeightInitializing::HE;
+
+    //TrainingNetwork.OutputActivation = &Linear;
+    //TrainingNetwork.OutputDerivativeActivation = &DerivateLinear;
+    TrainingNetwork.OutputLayerWeightInitType = WeightInitializing::XAVIER;
 }
 
 void QActor::AddMemory(std::vector<Scalar> states, int action, Scalar reward, std::vector<Scalar> nextStates) {
@@ -44,7 +45,7 @@ void QActor::Learn() {
     }
     //copy network every 100 episodes
     if(EpisodeCount % 100 == 0 ){
-        MainNetwork = TrainingNetwork;
+        //MainNetwork = TrainingNetwork;
     }
 
     //learn
@@ -73,11 +74,6 @@ void QActor::LearnFromAllMemory() {
 
     //https://neuro.cs.ut.ee/demystifying-deep-reinforcement-learning/
 
-    if(ExperiencedReplayMemory.size() < BatchSize){
-        std::cout << "ReplayMemory to small" << std::endl;
-        return;
-    }
-
     //learn
     for(int i{0}; i < ExperiencedReplayMemory.size(); i++){
 
@@ -97,7 +93,7 @@ void QActor::LearnFromAllMemory() {
     EpisodeCount ++;
 
    ClearMemory();
-   
+
 }
 
 void QActor::ClearMemory() {
@@ -108,3 +104,4 @@ void QActor::ClearMemory() {
 
     ExperiencedReplayMemory.clear();
 }
+

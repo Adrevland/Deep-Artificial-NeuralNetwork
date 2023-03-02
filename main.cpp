@@ -2,6 +2,7 @@
 #include "Network/Utils/Importer.h"
 #include "Network/NeuralNetwork.h"
 #include "Network/Utils/ActivationFunctions.h"
+#include "Network/QActor.h"
 
 
 int main() {
@@ -52,6 +53,11 @@ int main() {
     network.Train(TrainingData, rate, epoch, outputSize,true);
 
     network.PrintNetwork();
+
+
+    //test Q Network
+    QActor qActor;
+    qActor.InitQNetwork(HiddenLayout,inputSize,outputSize);
 
     std::cout <<"\n\n";
     std::cout << "-----------------------\n"

@@ -21,9 +21,10 @@ struct ReplayMemory{
 
 class QActor {
 public:
-    QActor(std::vector<int> &NetworkLayout,int& inputs,int &actions);
+    QActor();
     ~QActor();
 
+    void InitQNetwork(std::vector<int> &NetworkLayout,int& inputs,int &actions);
     void Learn();
     void LearnFromAllMemory();
     void AddMemory(std::vector<Scalar> states, int action, Scalar reward, std::vector<Scalar> nextStates);
