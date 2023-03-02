@@ -25,6 +25,7 @@ public:
     ~QActor();
 
     void Learn();
+    void LearnFromAllMemory();
     void AddMemory(std::vector<Scalar> states, int action, Scalar reward, std::vector<Scalar> nextStates);
     long GetAction(std::vector<Scalar>& states);
 private:

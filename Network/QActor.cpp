@@ -68,3 +68,31 @@ void QActor::Learn() {
     }
     EpisodeCount ++;
 }
+
+void QActor::LearnFromAllMemory() {
+
+    //https://neuro.cs.ut.ee/demystifying-deep-reinforcement-learning/
+
+    if(ExperiencedReplayMemory.size() < BatchSize){
+        std::cout << "ReplayMemory to small" << std::endl;
+        return;
+    }
+
+    //learn
+    for(int i{0}; i < ExperiencedReplayMemory.size(); i++){
+
+        auto memory = ExperiencedReplayMemory[i];
+
+        Scalar gamma = std::pow(0.9,(ExperiencedReplayMemory.size()-1)-i);
+
+        std::vector<Scalar> Feedback = TrainingNetwork.ForwardPropagate(memory.States);
+
+        double NewQMax = TrainingNetwork.GetQMax(memory.NewStates);
+
+        Feedback[memory.Action] = memory.Reward + gamma * NewQMax;
+
+        TrainingNetwork.TrainDQN(memory.NewStates,Feedback,LearningRate);
+
+    }
+    EpisodeCount ++;
+}
