@@ -17,12 +17,12 @@ void QActor::InitQNetwork(std::vector<int> &NetworkLayout, int &inputs, int &act
 
     TrainingNetwork.bLog = false;
 
-    //TrainingNetwork.HiddenActivation = &ReLU;
-    //TrainingNetwork.HiddenDerivativeActivation = &DerivateReLU;
+    TrainingNetwork.HiddenActivation = &ReLU;
+    TrainingNetwork.HiddenDerivativeActivation = &DerivateReLU;
     TrainingNetwork.HiddenLayerWeightInitType = WeightInitializing::HE;
 
-    //TrainingNetwork.OutputActivation = &Linear;
-    //TrainingNetwork.OutputDerivativeActivation = &DerivateLinear;
+    TrainingNetwork.OutputActivation = &Linear;
+    TrainingNetwork.OutputDerivativeActivation = &DerivateLinear;
     TrainingNetwork.OutputLayerWeightInitType = WeightInitializing::XAVIER;
 }
 
