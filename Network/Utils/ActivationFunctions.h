@@ -30,4 +30,10 @@ Scalar LeakyReLU(Scalar z){
 Scalar DerivateLeakyReLU(Scalar z){
     return z < 0 ? 0.01 : 1;
 }
+Scalar Linear(Scalar z){
+    return z;
+}
+Scalar DerivateLinear(Scalar z){
+    return 1;
+}
 #endif //NEURALNETWORK_ACTIVATIONFUNCTIONS_H

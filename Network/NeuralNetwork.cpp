@@ -283,7 +283,7 @@ std::vector<Scalar> NeuralNetwork::PredictSoftMaxOutput(std::vector<Scalar> &inp
     return SoftMaxed;
 }
 
-void NeuralNetwork::TrainDQN(std::vector<Scalar> States, std::vector<Scalar> Outputs, Scalar rate) {
+void NeuralNetwork::TrainDQN(std::vector<Scalar>& States, std::vector<Scalar> &Outputs, Scalar rate) {
 
     ForwardPropagate(States);
     BackwardPropagateError(Outputs);
@@ -306,6 +306,11 @@ long NeuralNetwork::EpsilonGreedy(const std::vector<Scalar> &States) {
     Epsilon -= 0.01;
 
     return Predict(States);
+}
+
+Scalar NeuralNetwork::GetQMax(std::vector<Scalar> &states) {
+    auto outputs = ForwardPropagate(states);
+    return *std::max_element(outputs.begin(), outputs.end());
 }
 
 

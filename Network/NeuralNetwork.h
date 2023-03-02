@@ -28,6 +28,8 @@ public:
 
     //DQN
     long EpsilonGreedy(const std::vector<Scalar>& States);
+    void TrainDQN(std::vector<Scalar>&States,std::vector<Scalar>&Outputs, Scalar rate);
+    Scalar GetQMax(std::vector<Scalar> & states);
 
     bool bLog{true};
     std::vector<Scalar> PredictSoftMaxOutput(std::vector<Scalar>& input);
@@ -53,17 +55,7 @@ private:
 
     //Q-Stuff
     //https://neuro.cs.ut.ee/demystifying-deep-reinforcement-learning/
-    void TrainDQN(std::vector<Scalar>States,std::vector<Scalar>Outputs, Scalar rate);
 
-    //double edged queue for memory of pair<action, score>
-    struct ReplayMemory{
-        std::vector<Scalar> States;
-        int Action{0};
-        Scalar Reward{0.0};
-        std::vector<Scalar> NextStates;
-
-    };
-    std::deque<std::pair<int, double>> ReplayMemory;
     Scalar Epsilon{1.0};
 
 };
