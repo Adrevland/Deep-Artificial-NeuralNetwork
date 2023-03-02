@@ -95,4 +95,16 @@ void QActor::LearnFromAllMemory() {
 
     }
     EpisodeCount ++;
+
+   ClearMemory();
+   
+}
+
+void QActor::ClearMemory() {
+    std::cout << std::endl << std::endl;
+    std::cout << "--------------------------" << std::endl;
+    std::cout << "Clearing Replay Memory" << std::endl;
+    std::cout << "--------------------------" << std::endl << std::endl;
+
+    ExperiencedReplayMemory.clear();
 }

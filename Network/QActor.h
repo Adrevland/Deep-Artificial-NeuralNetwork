@@ -28,6 +28,7 @@ public:
     void LearnFromAllMemory();
     void AddMemory(std::vector<Scalar> states, int action, Scalar reward, std::vector<Scalar> nextStates);
     long GetAction(std::vector<Scalar>& states);
+    void ClearMemory();
 private:
 
     Scalar LearningRate{0.01};
