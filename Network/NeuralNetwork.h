@@ -43,7 +43,9 @@ public:
     WeightInitializing HiddenLayerWeightInitType{WeightInitializing::XAVIER};
     WeightInitializing OutputLayerWeightInitType{WeightInitializing::XAVIER};
 
+    int RandomActionCount{10};
 private:
+    int RandomActionsDone{0};
     size_t LayerCount{0};
     std::vector<Layer> Layers;
 

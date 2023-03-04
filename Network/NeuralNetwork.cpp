@@ -292,8 +292,9 @@ void NeuralNetwork::TrainDQN(std::vector<Scalar>& States, std::vector<Scalar> &O
 
 long NeuralNetwork::EpsilonGreedy(const std::vector<Scalar> &States) {
     auto dist =std::uniform_int_distribution<>(0,100);
-    //explore
-    if(Epsilon < dist(gen)/100.0){
+    //explore, new networks start exploring n times
+    if(Epsilon < dist(gen)/100.0 || RandomActionCount < RandomActionsDone){
+        RandomActionsDone++;
        int outputs =  Layers.back().GetNeurons().size()-1;
        auto randAction = std::uniform_int_distribution<>(0,outputs);
        //reset Epsilon
