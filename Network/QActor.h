@@ -7,6 +7,7 @@
 
 typedef double Scalar;
 struct ReplayMemory{
+    ReplayMemory() = default;
     ReplayMemory(std::vector<Scalar>& states, int& action, Scalar &reward, std::vector<Scalar>& nextStates){
         States = states;
         Action = action;
@@ -28,6 +29,7 @@ public:
     void Learn();
     void LearnFromAllMemory();
     void AddMemory(std::vector<Scalar> states, int action, Scalar reward, std::vector<Scalar> nextStates);
+    void AddMemory(ReplayMemory & memory);
     long GetAction(std::vector<Scalar>& states);
     void ClearMemory();
     void SetNetwork(NeuralNetwork nn){ TrainingNetwork = nn;}

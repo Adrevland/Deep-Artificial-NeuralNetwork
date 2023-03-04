@@ -118,3 +118,7 @@ double QActor::GetReward() {
     return sum;
 }
 
+void QActor::AddMemory(ReplayMemory &memory) {
+    ExperiencedReplayMemory.emplace_back(memory);
+}
+
