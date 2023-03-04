@@ -44,10 +44,11 @@ public:
     WeightInitializing OutputLayerWeightInitType{WeightInitializing::XAVIER};
 
     int RandomActionCount{10};
+    std::vector<Layer> Layers;
 private:
     int RandomActionsDone{0};
     size_t LayerCount{0};
-    std::vector<Layer> Layers;
+
 
     std::vector<std::vector<Scalar>> NormalizeData(std::vector<std::vector<Scalar>>& data);
     std::vector<Scalar> NormalizeData(std::vector<Scalar>& data);
