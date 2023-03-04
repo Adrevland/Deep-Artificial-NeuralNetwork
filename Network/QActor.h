@@ -30,6 +30,10 @@ public:
     void AddMemory(std::vector<Scalar> states, int action, Scalar reward, std::vector<Scalar> nextStates);
     long GetAction(std::vector<Scalar>& states);
     void ClearMemory();
+    void SetNetwork(NeuralNetwork nn){ TrainingNetwork = nn;}
+    NeuralNetwork& GetNetwork(){return TrainingNetwork;}
+    bool IsInitialized(){return NetworkIsInitialized;}
+    double GetReward();
 private:
 
     Scalar LearningRate{0.01};
@@ -41,6 +45,7 @@ private:
 
     int EpisodeCount{0};
     int BatchSize{10};
+    bool NetworkIsInitialized{false};
 };
 
 

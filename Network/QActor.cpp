@@ -21,9 +21,13 @@ void QActor::InitQNetwork(std::vector<int> &NetworkLayout, int &inputs, int &act
     TrainingNetwork.OutputDerivativeActivation = &DerivateLinear;
     TrainingNetwork.OutputLayerWeightInitType = WeightInitializing::XAVIER;
 
+    TrainingNetwork.bLog = false;
+
     TrainingNetwork.InitNetwork(inputs,actions,NetworkLayout);
 
     MainNetwork = TrainingNetwork;
+
+    NetworkIsInitialized = true;
 }
 
 void QActor::AddMemory(std::vector<Scalar> states, int action, Scalar reward, std::vector<Scalar> nextStates) {
@@ -103,5 +107,14 @@ void QActor::ClearMemory() {
     std::cout << "--------------------------" << std::endl << std::endl;
 
     ExperiencedReplayMemory.clear();
+}
+
+double QActor::GetReward() {
+    double sum{0};
+    for(auto m: ExperiencedReplayMemory)
+    {
+        sum += m.Reward;
+    }
+    return sum;
 }
 
