@@ -48,6 +48,7 @@ private:
     int EpisodeCount{0};
     int BatchSize{10};
     bool NetworkIsInitialized{false};
+    int MaxMemorySize{10000};
 };
 
 

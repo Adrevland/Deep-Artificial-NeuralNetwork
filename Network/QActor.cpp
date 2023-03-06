@@ -119,6 +119,12 @@ double QActor::GetReward() {
 }
 
 void QActor::AddMemory(ReplayMemory &memory) {
+    if(ExperiencedReplayMemory.size() > MaxMemorySize)
+    {
+        ExperiencedReplayMemory.erase(
+                ExperiencedReplayMemory.begin(),
+                ExperiencedReplayMemory.begin() + ExperiencedReplayMemory.size() / 2);
+    }
     ExperiencedReplayMemory.emplace_back(memory);
 }
 

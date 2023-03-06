@@ -31,7 +31,7 @@ public:
     void TrainDQN(std::vector<Scalar>&States,std::vector<Scalar>&Outputs, Scalar rate);
     Scalar GetQMax(std::vector<Scalar> & states);
 
-    bool bLog{true};
+    bool bLog{false};
     std::vector<Scalar> PredictSoftMaxOutput(std::vector<Scalar>& input);
     Scalar (*HiddenActivation)(Scalar){nullptr};
     Scalar (*OutputActivation)(Scalar){nullptr};

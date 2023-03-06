@@ -131,7 +131,7 @@ void NeuralNetwork::Train(std::vector<std::vector<Scalar>> trainingData, Scalar 
 
     auto normalData = trainingData;
     if (BNormalizeData)
-        auto normalData = NormalizeData(trainingData);
+        normalData = NormalizeData(trainingData);
 
 
     for (size_t i{0}; i < epoch; i++) {
