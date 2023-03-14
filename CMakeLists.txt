@@ -17,5 +17,5 @@ add_executable(
         Network/Utils/Importer.h
         Network/Utils/ActivationFunctions.h
         Network/Utils/Random.h
-        Network/QActor.cpp
-        Network/QActor.h)
+        Network/ClippedDoubleDQN.cpp
+        Network/ClippedDoubleDQN.h)

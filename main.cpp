@@ -2,7 +2,7 @@
 #include "Network/Utils/Importer.h"
 #include "Network/NeuralNetwork.h"
 #include "Network/Utils/ActivationFunctions.h"
-#include "Network/QActor.h"
+#include "Network/ClippedDoubleDQN.h"
 
 
 int main() {
@@ -56,8 +56,8 @@ int main() {
 
 
     //test Q Network
-    QActor qActor;
-    qActor.InitQNetwork(HiddenLayout,inputSize,outputSize);
+    ClippedDoubleDQN qActor;
+    qActor.InitQNetwork(HiddenLayout,HiddenLayout,inputSize,outputSize);
 
     std::cout <<"\n\n";
     std::cout << "-----------------------\n"
